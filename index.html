@@ -464,7 +464,7 @@
 
     <script>
         // Data structure for the Alluvial diagram
-        const data = {
+        const originalData = {
             nodes: [
                 // Website Promises (Left side)
                 { name: "Easy Implementation", group: "promise", role: "caregiver", id: 0 },
@@ -566,7 +566,7 @@
             .nodePadding(Math.max(8, Math.min(10, height * 0.02)))
             .size([width, height]);
 
-        let currentData = { nodes: [...data.nodes], links: [...data.links] };
+        let currentData = { nodes: [...originalData.nodes], links: [...originalData.links] };
 
         function updateChart() {
             // Clear existing chart
@@ -668,44 +668,54 @@
             const roleFilter = document.getElementById("roleFilter").value;
             const alignmentFilter = document.getElementById("alignmentFilter").value;
 
-            // Reset to original data
-            currentData = { nodes: [...data.nodes], links: [...data.links] };
+            // Start with original data
+            let filteredLinks = [...originalData.links];
 
-            // Apply filters
+            // Apply role filter
             if (roleFilter !== "all") {
-                currentData.links = currentData.links.filter(link => {
-                    const sourceNode = data.nodes[link.source];
-                    return sourceNode.role === roleFilter;
+                filteredLinks = filteredLinks.filter(link => {
+                    const sourceNode = originalData.nodes.find(n => n.id === link.source);
+                    return sourceNode && sourceNode.role === roleFilter;
                 });
             }
 
+            // Apply alignment filter
             if (alignmentFilter !== "all") {
-                currentData.links = currentData.links.filter(link => 
+                filteredLinks = filteredLinks.filter(link => 
                     link.alignment === alignmentFilter
                 );
             }
 
-            // Filter nodes to only include those with connections
+            // Get all node IDs that are referenced in the filtered links
             const usedNodeIds = new Set();
-            currentData.links.forEach(link => {
+            filteredLinks.forEach(link => {
                 usedNodeIds.add(link.source);
                 usedNodeIds.add(link.target);
             });
 
-            currentData.nodes = currentData.nodes.filter(node => 
+            // Filter nodes to only include those with connections
+            const filteredNodes = originalData.nodes.filter(node => 
                 usedNodeIds.has(node.id)
             );
 
-            // Re-index nodes
-            const nodeMap = new Map();
-            currentData.nodes.forEach((node, i) => {
-                nodeMap.set(node.id, i);
+            // Create a mapping from old IDs to new indices
+            const nodeIdToNewIndex = new Map();
+            filteredNodes.forEach((node, index) => {
+                nodeIdToNewIndex.set(node.id, index);
             });
 
-            currentData.links.forEach(link => {
-                link.source = nodeMap.get(link.source);
-                link.target = nodeMap.get(link.target);
-            });
+            // Update link references to use new indices
+            const updatedLinks = filteredLinks.map(link => ({
+                ...link,
+                source: nodeIdToNewIndex.get(link.source),
+                target: nodeIdToNewIndex.get(link.target)
+            }));
+
+            // Update current data
+            currentData = {
+                nodes: filteredNodes,
+                links: updatedLinks
+            };
 
             updateChart();
         }
