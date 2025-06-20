@@ -21,15 +21,15 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -38,28 +38,29 @@
         h1 {
             color: #2c3e50;
             margin-bottom: 10px;
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
         }
 
         .subtitle {
             color: #7f8c8d;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             margin-bottom: 20px;
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
         .filter-group {
             background: white;
-            padding: 15px;
+            padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-width: 150px;
         }
 
         .filter-group label {
@@ -94,27 +95,30 @@
             background: #2980b9;
         }
 
-.chart-container {
-    background: white;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
-    overflow-x: auto;
-}
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
 
         .legend {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
+            padding: 0 10px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: clamp(12px, 2vw, 14px);
         }
 
         .legend-color {
@@ -152,8 +156,8 @@
 
         .glossary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
         .glossary-section {
@@ -212,9 +216,41 @@
             stroke-width: 2;
         }
 
+        .stats {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .stat-number {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .subtitle {
@@ -224,48 +260,55 @@
             .controls {
                 flex-direction: column;
                 align-items: center;
+                gap: 10px;
+            }
+            
+            .filter-group {
+                width: 100%;
+                max-width: 300px;
             }
             
             .legend {
                 flex-direction: column;
                 align-items: center;
+                gap: 8px;
             }
             
             .glossary-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .legend-item {
+                font-size: 12px;
+            }
         }
 
-        .stats {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #3498db;
-        }
-
-        .stat-label {
-            color: #7f8c8d;
-            margin-top: 5px;
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            
+            header {
+                padding: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .filter-group {
+                padding: 8px;
+            }
+            
+            select, button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -503,9 +546,10 @@
         };
 
         // Set up dimensions
-        const margin = { top: 20, right: 150, bottom: 20, left: 150 };
-        const width = Math.max(1200, window.innerWidth - 100) - margin.left - margin.right;
-        const height = 600 - margin.top - margin.bottom;
+        const margin = { top: 20, right: 30, bottom: 20, left: 30 };
+        const containerWidth = document.getElementById("chart").clientWidth || window.innerWidth - 40;
+        const width = Math.max(800, containerWidth - 60) - margin.left - margin.right;
+        const height = Math.min(600, window.innerHeight * 0.6) - margin.top - margin.bottom;
 
         // Create SVG
         const svg = d3.select("#chart")
@@ -518,8 +562,8 @@
 
         // Create sankey
         const sankey = d3.sankey()
-            .nodeWidth(15)
-            .nodePadding(10)
+            .nodeWidth(Math.max(10, Math.min(15, width * 0.02)))
+            .nodePadding(Math.max(8, Math.min(10, height * 0.02)))
             .size([width, height]);
 
         let currentData = { nodes: [...data.nodes], links: [...data.links] };
@@ -597,7 +641,7 @@
                 .attr("dy", "0.35em")
                 .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
                 .text(d => d.name)
-                .style("font-size", "11px")
+                .style("font-size", `${Math.max(9, Math.min(11, width * 0.008))}px`)
                 .style("font-weight", "500");
 
             // Add column headers
@@ -681,9 +725,12 @@
 
         // Handle window resize
         window.addEventListener("resize", function() {
-            const newWidth = Math.max(1200, window.innerWidth - 100) - margin.left - margin.right;
-            if (Math.abs(newWidth - width) > 50) {
-                location.reload(); // Simple solution for responsive design
+            const newContainerWidth = document.getElementById("chart").clientWidth || window.innerWidth - 40;
+            const newWidth = Math.max(800, newContainerWidth - 60) - margin.left - margin.right;
+            if (Math.abs(newWidth - width) > 100) {
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
             }
         });
     </script>
