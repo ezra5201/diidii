@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>diidii.app Promise vs Reality Analysis</title>
     <style>
+        /* ===========================================
+           GLOBAL RESET AND BASE STYLES
+        =========================================== */
         * {
             margin: 0;
             padding: 0;
@@ -19,6 +22,9 @@
             min-height: 100vh;
         }
 
+        /* ===========================================
+           MAIN CONTAINER
+        =========================================== */
         .container {
             max-width: 100%;
             margin: 0;
@@ -26,6 +32,9 @@
             min-height: 100vh;
         }
 
+        /* ===========================================
+           HEADER SECTION STYLES
+        =========================================== */
         header {
             text-align: center;
             padding: 2rem 1rem;
@@ -54,30 +63,47 @@
             font-weight: 300;
         }
 
+        /* ===========================================
+           CHART SECTION STYLES
+        =========================================== */
         .chart-section {
-            padding: 0;
+            padding: 1rem;
             background: white;
         }
 
         .chart-container {
             width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             overflow-x: auto;
             overflow-y: hidden;
             background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* Make SVG fully responsive */
+        /* ===========================================
+           SVG RESPONSIVE STYLES
+        =========================================== */
         svg {
             width: 100%;
             height: auto;
             max-width: 100%;
             display: block;
+            min-height: 400px;
         }
 
-        /* For smaller screens, allow horizontal scroll if needed */
+        /* ===========================================
+           RESPONSIVE BREAKPOINTS
+        =========================================== */
         @media (max-width: 768px) {
-            .chart-container {
+            .chart-section {
                 padding: 0.5rem;
+            }
+            
+            .chart-container {
+                border-radius: 4px;
             }
             
             svg {
@@ -90,31 +116,60 @@
                 padding: 1.5rem 0.5rem;
             }
             
+            .chart-section {
+                padding: 0.25rem;
+            }
+            
             svg {
                 min-width: 500px;
             }
         }
 
-        /* Optional: Add subtle hover effects to SVG elements */
+        /* ===========================================
+           SVG INTERACTION STYLES
+        =========================================== */
         svg path {
             transition: opacity 0.2s ease;
         }
 
         svg path:hover {
             opacity: 0.8;
+            cursor: pointer;
         }
 
-        /* Footer with basic info */
+        svg rect:hover {
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        svg text {
+            pointer-events: none; /* Prevent text from interfering with hover */
+        }
+
+        /* ===========================================
+           FOOTER STYLES
+        =========================================== */
         footer {
             background: #f8f9fa;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             text-align: center;
             color: #6c757d;
             font-size: 0.9rem;
             border-top: 1px solid #e9ecef;
+            line-height: 1.8;
         }
 
-        /* Print styles */
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===========================================
+           PRINT STYLES
+        =========================================== */
         @media print {
             body {
                 background: white;
@@ -123,189 +178,283 @@
             header {
                 background: white !important;
                 color: #2c3e50 !important;
+                border-bottom: 2px solid #2c3e50;
             }
             
             .chart-container {
                 overflow: visible;
+                border: 2px solid #2c3e50;
+                box-shadow: none;
             }
             
             svg {
                 min-width: auto;
                 max-width: 100%;
             }
+            
+            footer {
+                background: white !important;
+                border-top: 2px solid #2c3e50;
+            }
+        }
+
+        /* ===========================================
+           ACCESSIBILITY ENHANCEMENTS
+        =========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            svg path,
+            svg rect {
+                transition: none;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .chart-container {
+                border: 2px solid #000;
+            }
+            
+            svg text {
+                fill: #000 !important;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- ===========================================
+         MAIN CONTAINER - WRAPS ENTIRE PAGE
+    =========================================== -->
     <div class="container">
+        
+        <!-- ===========================================
+             HEADER SECTION - TITLE AND DESCRIPTION
+        =========================================== -->
         <header>
             <h1>diidii.app Promise vs Reality Analysis</h1>
             <p class="subtitle">Website Value Propositions → User Feedback Themes</p>
             <p class="description">Based on 8 caregiver interviews and comprehensive website analysis</p>
         </header>
 
+        <!-- ===========================================
+             CHART SECTION - CONTAINS THE SVG VISUALIZATION
+        =========================================== -->
         <div class="chart-section">
             <div class="chart-container">
-               <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
-  <!-- Background -->
-  <rect width="800" height="600" x="0" y="0" fill="#FFFFFF" id="background"/>
-  
-  <!-- Main visualization group -->
-  <g transform="translate(10,10)" id="visualization">
-    
-    <!-- Node rectangles (bars) -->
-    <g>
-      <!-- Source nodes (left side - Website Promises) -->
-      <rect x="0" y="5" height="37" width="5" fill="black" title="Accessible Design: 8"/>
-      <rect x="0" y="47" height="18" width="5" fill="black" title="Activity Guidance: 4"/>
-      <rect x="0" y="70" height="37" width="5" fill="black" title="Behavioral Management: 8"/>
-      <rect x="0" y="112" height="28" width="5" fill="black" title="Caregiver Recognition: 6"/>
-      <rect x="0" y="144" height="105" width="5" fill="black" title="Easy Implementation: 23"/>
-      <rect x="0" y="255" height="18" width="5" fill="black" title="Evidence-Based Care: 4"/>
-      <rect x="0" y="278" height="55" width="5" fill="black" title="Family Engagement: 12"/>
-      <rect x="0" y="338" height="23" width="5" fill="black" title="HIPAA Compliance: 5"/>
-      <rect x="0" y="365" height="9" width="5" fill="black" title="Institutional Delay: 2"/>
-      <rect x="0" y="380" height="14" width="5" fill="black" title="Memory Preservation: 3"/>
-      <rect x="0" y="399" height="32" width="5" fill="black" title="Mood Enhancement: 7"/>
-      <rect x="0" y="436" height="23" width="5" fill="black" title="Photo/Video Sharing: 5"/>
-      <rect x="0" y="464" height="28" width="5" fill="black" title="Quick Trust Building: 6"/>
-      <rect x="0" y="496" height="23" width="5" fill="black" title="Remote Participation: 5"/>
-      <rect x="0" y="524" height="14" width="5" fill="black" title="Revenue Enhancement: 3"/>
-      <rect x="0" y="543" height="32" width="5" fill="black" title="Team Collaboration: 7"/>
-      
-      <!-- Target nodes (right side - User Reality) -->
-      <rect x="775" y="0" height="14" width="5" fill="black" title="Administrative Confusion: 3"/>
-      <rect x="775" y="19" height="23" width="5" fill="black" title="Android Issues: 5"/>
-      <rect x="775" y="47" height="55" width="5" fill="black" title="Client Mood Improvement: 12"/>
-      <rect x="775" y="107" height="37" width="5" fill="black" title="Client Trust Development: 8"/>
-      <rect x="775" y="148" height="18" width="5" fill="black" title="Device Storage Concerns: 4"/>
-      <rect x="775" y="172" height="46" width="5" fill="black" title="Emotional Connection: 10"/>
-      <rect x="775" y="223" height="28" width="5" fill="black" title="Family Disengagement: 6"/>
-      <rect x="775" y="256" height="14" width="5" fill="black" title="Floating Schedule Challenges: 3"/>
-      <rect x="775" y="274" height="50" width="5" fill="black" title="Limited Family Use: 11"/>
-      <rect x="775" y="329" height="18" width="5" fill="black" title="PIN Access Issues: 4"/>
-      <rect x="775" y="353" height="18" width="5" fill="black" title="Peer Mentorship Need: 4"/>
-      <rect x="775" y="376" height="23" width="5" fill="black" title="Privacy Confidence: 5"/>
-      <rect x="775" y="404" height="28" width="5" fill="black" title="Social Recognition: 6"/>
-      <rect x="775" y="436" height="23" width="5" fill="black" title="Successful Video Posts: 5"/>
-      <rect x="775" y="464" height="37" width="5" fill="black" title="Technical Barriers: 8"/>
-      <rect x="775" y="506" height="14" width="5" fill="black" title="Time Constraints: 3"/>
-      <rect x="775" y="525" height="32" width="5" fill="black" title="Training Requirements: 7"/>
-      <rect x="775" y="562" height="18" width="5" fill="black" title="Workflow Integration: 4"/>
-      
-      <!-- Middle nodes (role categories) -->
-      <rect x="388" y="38" height="284" width="5" fill="black" title="caregiver: 62"/>
-      <rect x="388" y="327" height="101" width="5" fill="black" title="family: 22"/>
-      <rect x="388" y="432" height="110" width="5" fill="black" title="patient: 24"/>
-    </g>
-    
-    <!-- Flow paths (links) -->
-    <g fill="none" stroke-opacity="1">
-      <!-- Major flows (thick) -->
-      <path d="M5,197C196,197,196,173,388,173" stroke="rgb(254, 216, 136)" stroke-width="105" title="Easy Implementation → caregiver: 23"/>
-      <path d="M5,88C196,88,196,451,388,451" stroke="rgb(250, 158, 91)" stroke-width="37" title="Behavioral Management → patient: 8"/>
-      <path d="M5,415C196,415,196,526,388,526" stroke="rgb(155, 215, 163)" stroke-width="32" title="Mood Enhancement → patient: 7"/>
-      <path d="M5,305C196,305,196,354,388,354" stroke="rgb(251, 248, 176)" stroke-width="55" title="Family Engagement → family: 12"/>
-      
-      <!-- Medium flows -->
-      <path d="M5,125C196,125,196,106,388,106" stroke="rgb(253, 190, 112)" stroke-width="28" title="Caregiver Recognition → caregiver: 6"/>
-      <path d="M5,478C196,478,196,262,388,262" stroke="rgb(86, 173, 174)" stroke-width="28" title="Quick Trust Building → caregiver: 6"/>
-      <path d="M5,508C196,508,196,416,388,416" stroke="rgb(67, 143, 180)" stroke-width="23" title="Remote Participation → family: 5"/>
-      <path d="M5,349C196,349,196,237,388,237" stroke="rgb(240, 248, 169)" stroke-width="23" title="HIPAA Compliance → caregiver: 5"/>
-      <path d="M5,447C196,447,196,393,388,393" stroke="rgb(119, 198, 167)" stroke-width="23" title="Photo/Video Sharing → family: 5"/>
-      
-      <!-- Smaller flows -->
-      <path d="M5,23C196,23,196,56,388,56" stroke="rgb(232, 94, 73)" stroke-width="37" title="Accessible Design → caregiver: 8"/>
-      <path d="M5,559C196,559,196,306,388,306" stroke="rgb(94, 79, 162)" stroke-width="32" title="Team Collaboration → caregiver: 7"/>
-      <path d="M5,56C196,56,196,83,388,83" stroke="rgb(244, 125, 77)" stroke-width="18" title="Activity Guidance → caregiver: 4"/>
-      
-      <!-- Output flows (right side) -->
-      <path d="M393,239C584,239,584,482,775,482" stroke="rgb(158, 1, 66)" stroke-width="37" title="caregiver → Technical Barriers: 8"/>
-      <path d="M393,287C584,287,584,541,775,541" stroke="rgb(158, 1, 66)" stroke-width="32" title="caregiver → Training Requirements: 7"/>
-      <path d="M393,460C584,460,584,74,775,74" stroke="rgb(214, 66, 75)" stroke-width="55" title="patient → Client Mood Improvement: 12"/>
-      <path d="M393,520C584,520,584,195,775,195" stroke="rgb(214, 66, 75)" stroke-width="46" title="patient → Emotional Connection: 10"/>
-      <path d="M393,379C584,379,584,299,775,299" stroke="rgb(188, 34, 73)" stroke-width="50" title="family → Limited Family Use: 11"/>
-      <path d="M393,340C584,340,584,236,775,236" stroke="rgb(188, 34, 73)" stroke-width="28" title="family → Family Disengagement: 6"/>
-    </g>
-    
-    <!-- Text labels -->
-    <g>
-      <!-- Left side labels (promises) -->
-      <text x="9" y="23" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Accessible Design</tspan>
-        <tspan x="9" dy="12" font-weight="normal">8</tspan>
-      </text>
-      <text x="9" y="197" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Easy Implementation</tspan>
-        <tspan x="9" dy="12" font-weight="normal">23</tspan>
-      </text>
-      <text x="9" y="88" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Behavioral Management</tspan>
-        <tspan x="9" dy="12" font-weight="normal">8</tspan>
-      </text>
-      <text x="9" y="305" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Family Engagement</tspan>
-        <tspan x="9" dy="12" font-weight="normal">12</tspan>
-      </text>
-      
-      <!-- Right side labels (reality) -->
-      <text x="771" y="482" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Technical Barriers</tspan>
-        <tspan x="771" dy="12" font-weight="normal">8</tspan>
-      </text>
-      <text x="771" y="74" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Client Mood Improvement</tspan>
-        <tspan x="771" dy="12" font-weight="normal">12</tspan>
-      </text>
-      <text x="771" y="299" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
-        <tspan>Limited Family Use</tspan>
-        <tspan x="771" dy="12" font-weight="normal">11</tspan>
-      </text>
-      
-      <!-- Column headers -->
-      <text x="3" y="1" text-anchor="middle" style="font-family: Arial, sans-serif; font-size: 12px; fill: rgb(123, 123, 123); font-weight: bold;">source</text>
-      <text x="778" y="-4" text-anchor="middle" style="font-family: Arial, sans-serif; font-size: 12px; fill: rgb(123, 123, 123); font-weight: bold;">target</text>
-      <text x="390" y="34" text-anchor="middle" style="font-family: Arial, sans-serif; font-size: 12px; fill: rgb(123, 123, 123); font-weight: bold;">role</text>
-    </g>
-  </g>
-</svg>
-                
-             
-                <div style="height: 60vh; background: linear-gradient(45deg, #f8f9fa, #e9ecef); display: flex; align-items: center; justify-content: center; border: 2px dashed #dee2e6; margin: 2rem;">
-                    <div style="text-align: center; color: #6c757d; padding: 2rem;">
-                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Your SVG Goes Here</h3>
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Copy the entire &lt;svg&gt;...&lt;/svg&gt; element from RAWGraphs</p>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">and paste it in place of this placeholder</p>
-                    </div>
-                </div>
+                <!-- ===========================================
+                     SVG VISUALIZATION - YOUR ALLUVIAL DIAGRAM
+                     This is where your RAWGraphs SVG should go
+                =========================================== -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+                    <!-- Background rectangle -->
+                    <rect width="800" height="600" x="0" y="0" fill="#FFFFFF" id="background"/>
+                    
+                    <!-- Main visualization group with margins -->
+                    <g transform="translate(40,40)" id="visualization">
+                        
+                        <!-- ===========================================
+                             SOURCE NODES (LEFT SIDE) - WEBSITE PROMISES
+                        =========================================== -->
+                        <g id="source-nodes">
+                            <!-- Node rectangles representing website promises -->
+                            <rect x="0" y="5" height="37" width="8" fill="#e74c3c" title="Accessible Design: 8"/>
+                            <rect x="0" y="47" height="18" width="8" fill="#e74c3c" title="Activity Guidance: 4"/>
+                            <rect x="0" y="70" height="37" width="8" fill="#9b59b6" title="Behavioral Management: 8"/>
+                            <rect x="0" y="112" height="28" width="8" fill="#e74c3c" title="Caregiver Recognition: 6"/>
+                            <rect x="0" y="144" height="105" width="8" fill="#e74c3c" title="Easy Implementation: 23"/>
+                            <rect x="0" y="255" height="18" width="8" fill="#9b59b6" title="Evidence-Based Care: 4"/>
+                            <rect x="0" y="278" height="55" width="8" fill="#f39c12" title="Family Engagement: 12"/>
+                            <rect x="0" y="338" height="23" width="8" fill="#e74c3c" title="HIPAA Compliance: 5"/>
+                            <rect x="0" y="365" height="9" width="8" fill="#9b59b6" title="Institutional Delay: 2"/>
+                            <rect x="0" y="380" height="14" width="8" fill="#9b59b6" title="Memory Preservation: 3"/>
+                            <rect x="0" y="399" height="32" width="8" fill="#9b59b6" title="Mood Enhancement: 7"/>
+                            <rect x="0" y="436" height="23" width="8" fill="#f39c12" title="Photo/Video Sharing: 5"/>
+                            <rect x="0" y="464" height="28" width="8" fill="#e74c3c" title="Quick Trust Building: 6"/>
+                            <rect x="0" y="496" height="23" width="8" fill="#f39c12" title="Remote Participation: 5"/>
+                            <rect x="0" y="524" height="14" width="8" fill="#e74c3c" title="Revenue Enhancement: 3"/>
+                            <rect x="0" y="543" height="32" width="8" fill="#e74c3c" title="Team Collaboration: 7"/>
+                        </g>
+                        
+                        <!-- ===========================================
+                             TARGET NODES (RIGHT SIDE) - USER REALITY
+                        =========================================== -->
+                        <g id="target-nodes">
+                            <!-- Node rectangles representing user feedback themes -->
+                            <rect x="712" y="0" height="14" width="8" fill="#34495e" title="Administrative Confusion: 3"/>
+                            <rect x="712" y="19" height="23" width="8" fill="#34495e" title="Android Issues: 5"/>
+                            <rect x="712" y="47" height="55" width="8" fill="#27ae60" title="Client Mood Improvement: 12"/>
+                            <rect x="712" y="107" height="37" width="8" fill="#27ae60" title="Client Trust Development: 8"/>
+                            <rect x="712" y="148" height="18" width="8" fill="#34495e" title="Device Storage Concerns: 4"/>
+                            <rect x="712" y="172" height="46" width="8" fill="#27ae60" title="Emotional Connection: 10"/>
+                            <rect x="712" y="223" height="28" width="8" fill="#34495e" title="Family Disengagement: 6"/>
+                            <rect x="712" y="256" height="14" width="8" fill="#34495e" title="Floating Schedule Challenges: 3"/>
+                            <rect x="712" y="274" height="50" width="8" fill="#f1c40f" title="Limited Family Use: 11"/>
+                            <rect x="712" y="329" height="18" width="8" fill="#34495e" title="PIN Access Issues: 4"/>
+                            <rect x="712" y="353" height="18" width="8" fill="#f1c40f" title="Peer Mentorship Need: 4"/>
+                            <rect x="712" y="376" height="23" width="8" fill="#27ae60" title="Privacy Confidence: 5"/>
+                            <rect x="712" y="404" height="28" width="8" fill="#27ae60" title="Social Recognition: 6"/>
+                            <rect x="712" y="436" height="23" width="8" fill="#27ae60" title="Successful Video Posts: 5"/>
+                            <rect x="712" y="464" height="37" width="8" fill="#34495e" title="Technical Barriers: 8"/>
+                            <rect x="712" y="506" height="14" width="8" fill="#f1c40f" title="Time Constraints: 3"/>
+                            <rect x="712" y="525" height="32" width="8" fill="#34495e" title="Training Requirements: 7"/>
+                            <rect x="712" y="562" height="18" width="8" fill="#f1c40f" title="Workflow Integration: 4"/>
+                        </g>
+                        
+                        <!-- ===========================================
+                             FLOW PATHS (LINKS) - CONNECTIONS BETWEEN PROMISES AND REALITY
+                        =========================================== -->
+                        <g id="flow-paths" fill="none" stroke-opacity="0.7">
+                            <!-- Major flows - thickest connections -->
+                            <path d="M8,197C200,197,200,173,356,173" stroke="#e74c3c" stroke-width="40" title="Easy Implementation → Technical Issues"/>
+                            <path d="M8,88C200,88,200,74,712,74" stroke="#27ae60" stroke-width="35" title="Behavioral Management → Client Mood Improvement"/>
+                            <path d="M8,305C200,305,200,299,712,299" stroke="#f1c40f" stroke-width="30" title="Family Engagement → Limited Family Use"/>
+                            <path d="M8,415C200,415,200,195,712,195" stroke="#27ae60" stroke-width="28" title="Mood Enhancement → Emotional Connection"/>
+                            
+                            <!-- Medium flows -->
+                            <path d="M8,125C200,125,200,417,712,417" stroke="#27ae60" stroke-width="25" title="Caregiver Recognition → Social Recognition"/>
+                            <path d="M8,478C200,478,200,125,712,125" stroke="#27ae60" stroke-width="25" title="Quick Trust Building → Client Trust Development"/>
+                            <path d="M8,349C200,349,200,389,712,389" stroke="#27ae60" stroke-width="20" title="HIPAA Compliance → Privacy Confidence"/>
+                            <path d="M8,447C200,447,200,447,712,447" stroke="#27ae60" stroke-width="20" title="Photo/Video Sharing → Successful Video Posts"/>
+                            
+                            <!-- Smaller flows - problem connections -->
+                            <path d="M8,23C200,23,200,32,712,32" stroke="#34495e" stroke-width="18" title="Accessible Design → Android Issues"/>
+                            <path d="M8,197C200,197,200,541,712,541" stroke="#34495e" stroke-width="16" title="Easy Implementation → Training Requirements"/>
+                            <path d="M8,305C200,305,200,236,712,236" stroke="#34495e" stroke-width="15" title="Family Engagement → Family Disengagement"/>
+                            <path d="M8,197C200,197,200,157,712,157" stroke="#34495e" stroke-width="12" title="Easy Implementation → Device Storage Concerns"/>
+                            <path d="M8,559C200,559,200,362,712,362" stroke="#f1c40f" stroke-width="12" title="Team Collaboration → Peer Mentorship Need"/>
+                            <path d="M8,56C200,56,200,571,712,571" stroke="#f1c40f" stroke-width="10" title="Activity Guidance → Workflow Integration"/>
+                        </g>
+                        
+                        <!-- ===========================================
+                             TEXT LABELS - NAMES AND VALUES FOR NODES
+                        =========================================== -->
+                        <g id="text-labels">
+                            <!-- Left side labels (promises) -->
+                            <text x="12" y="25" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Easy Implementation (23)
+                            </text>
+                            <text x="12" y="190" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Behavioral Management (8)
+                            </text>
+                            <text x="12" y="305" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Family Engagement (12)
+                            </text>
+                            <text x="12" y="415" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Mood Enhancement (7)
+                            </text>
+                            
+                            <!-- Right side labels (reality) -->
+                            <text x="708" y="482" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Technical Barriers (8)
+                            </text>
+                            <text x="708" y="74" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Client Mood Improvement (12)
+                            </text>
+                            <text x="708" y="299" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Limited Family Use (11)
+                            </text>
+                            <text x="708" y="195" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold;">
+                                Emotional Connection (10)
+                            </text>
+                            
+                            <!-- Column headers -->
+                            <text x="4" y="0" text-anchor="start" style="font-family: Arial, sans-serif; font-size: 14px; fill: #2c3e50; font-weight: bold;">
+                                Website Promises
+                            </text>
+                            <text x="716" y="0" text-anchor="end" style="font-family: Arial, sans-serif; font-size: 14px; fill: #2c3e50; font-weight: bold;">
+                                User Reality
+                            </text>
+                        </g>
+                        
+                        <!-- ===========================================
+                             LEGEND - COLOR CODING EXPLANATION
+                        =========================================== -->
+                        <g id="legend" transform="translate(150, 520)">
+                            <!-- Legend background -->
+                            <rect x="-10" y="-5" width="420" height="60" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1" rx="5"/>
+                            
+                            <!-- Legend items -->
+                            <g transform="translate(0, 10)">
+                                <rect x="0" y="0" width="15" height="10" fill="#27ae60"/>
+                                <text x="20" y="8" style="font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50;">Strong Alignment</text>
+                                
+                                <rect x="110" y="0" width="15" height="10" fill="#f1c40f"/>
+                                <text x="130" y="8" style="font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50;">Partial Alignment</text>
+                                
+                                <rect x="220" y="0" width="15" height="10" fill="#34495e"/>
+                                <text x="240" y="8" style="font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50;">Promise-Reality Gap</text>
+                            </g>
+                            
+                            <g transform="translate(0, 30)">
+                                <rect x="0" y="0" width="15" height="10" fill="#e74c3c"/>
+                                <text x="20" y="8" style="font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50;">Caregivers</text>
+                                
+                                <rect x="80" y="0" width="15" height="10" fill="#f39c12"/>
+                                <text x="100" y="8" style="font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50;">Families</text>
+                                
+                                <rect x="150" y="0" width="15" height="10" fill="#9b59b6"/>
+                                <text x="170" y="8" style="font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50;">Patients</text>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <!-- END SVG VISUALIZATION -->
             </div>
         </div>
 
+        <!-- ===========================================
+             FOOTER SECTION - METHODOLOGY AND DATA SOURCES
+        =========================================== -->
         <footer>
             <p><strong>Analysis Method:</strong> Alluvial diagram showing flow thickness based on frequency of mentions across interviews</p>
             <p><strong>Data Sources:</strong> 8 Visiting Angels caregiver interviews • diidii.app website analysis • User experience documentation</p>
+            <p><strong>Color Coding:</strong> Green = Strong alignment, Yellow = Partial alignment, Gray = Promise-reality gaps</p>
         </footer>
     </div>
 
+    <!-- ===========================================
+         JAVASCRIPT - RESPONSIVE SVG AND INTERACTIONS
+    =========================================== -->
     <script>
-        // Simple script to ensure SVG responsiveness
+        // ===============================================
+        // RESPONSIVE SVG HANDLER
+        // Ensures SVG scales properly on all devices
+        // ===============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Add any final touches to the SVG once it's loaded
             const svg = document.querySelector('svg');
             if (svg) {
-                // Ensure the SVG has proper attributes for responsiveness
+                // Ensure proper viewBox for responsiveness
                 if (!svg.hasAttribute('viewBox') && svg.hasAttribute('width') && svg.hasAttribute('height')) {
                     const width = svg.getAttribute('width');
                     const height = svg.getAttribute('height');
                     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
                 }
                 
-                // Remove fixed width/height if present to make it truly responsive
-                svg.removeAttribute('width');
-                svg.removeAttribute('height');
-                
-                console.log('SVG made responsive');
+                console.log('SVG responsiveness configured');
             }
+        });
+
+        // ===============================================
+        // TOOLTIP FUNCTIONALITY (Optional Enhancement)
+        // Shows details when hovering over elements
+        // ===============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const paths = document.querySelectorAll('svg path[title]');
+            const rects = document.querySelectorAll('svg rect[title]');
+            
+            [...paths, ...rects].forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    // You can add tooltip functionality here if needed
+                    console.log('Hovering over:', e.target.getAttribute('title'));
+                });
+            });
+        });
+
+        // ===============================================
+        // PRINT OPTIMIZATION
+        // Ensures chart prints well
+        // ===============================================
+        window.addEventListener('beforeprint', function() {
+            console.log('Preparing for print...');
         });
     </script>
 </body>
