@@ -1,0 +1,215 @@
+<style>
+        /* ===========================================
+           GLOBAL RESET AND BASE STYLES
+        =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* ===========================================
+           MAIN CONTAINER
+        =========================================== */
+        .container {
+            max-width: 100%;
+            margin: 0;
+            background: white;
+            min-height: 100vh;
+        }
+
+        /* ===========================================
+           HEADER SECTION STYLES
+        =========================================== */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: white;
+            color: #2c3e50;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            color: #6c757d;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .description {
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #868e96;
+            font-weight: 300;
+        }
+
+        /* ===========================================
+           CHART SECTION STYLES
+        =========================================== */
+        .chart-section {
+            padding: 1rem;
+            background: white;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* ===========================================
+           SVG RESPONSIVE STYLES
+        =========================================== */
+        .chart-svg {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            display: block;
+            min-height: 400px;
+        }
+
+        /* ===========================================
+           RESPONSIVE BREAKPOINTS
+        =========================================== */
+        @media (max-width: 768px) {
+            .chart-section {
+                padding: 0.5rem;
+            }
+            
+            .chart-container {
+                border-radius: 4px;
+            }
+            
+            .chart-svg {
+                min-width: 600px; /* Minimum width to maintain readability */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1.5rem 0.5rem;
+            }
+            
+            .chart-section {
+                padding: 0.25rem;
+            }
+            
+            .chart-svg {
+                min-width: 500px;
+            }
+        }
+
+        /* ===========================================
+           SVG INTERACTION STYLES
+        =========================================== */
+        .chart-svg path {
+            transition: opacity 0.2s ease;
+        }
+
+        .chart-svg path:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .chart-svg rect:hover {
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        .chart-svg text {
+            pointer-events: none; /* Prevent text from interfering with hover */
+        }
+
+        /* ===========================================
+           FOOTER STYLES
+        =========================================== */
+        footer {
+            background: #f8f9fa;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+            line-height: 1.8;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===========================================
+           PRINT STYLES
+        =========================================== */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            header {
+                background: white !important;
+                color: #2c3e50 !important;
+                border-bottom: 2px solid #2c3e50;
+            }
+            
+            .chart-container {
+                overflow: visible;
+                border: 2px solid #2c3e50;
+                box-shadow: none;
+            }
+            
+            .chart-svg {
+                min-width: auto;
+                max-width: 100%;
+            }
+            
+            footer {
+                background: white !important;
+                border-top: 2px solid #2c3e50;
+            }
+        }
+
+        /* ===========================================
+           ACCESSIBILITY ENHANCEMENTS
+        =========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            .chart-svg path,
+            .chart-svg rect {
+                transition: none;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .chart-container {
+                border: 2px solid #000;
+            }
+            
+            .chart-svg text {
+                fill: #000 !important;
+            }
+        }
+    </style>
