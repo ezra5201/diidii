@@ -1,0 +1,146 @@
+<!-- SVG Root Element: Defines canvas size and namespace -->
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+  
+  <!-- WHITE BACKGROUND: Creates clean canvas for the visualization -->
+  <rect width="800" height="600" x="0" y="0" fill="#FFFFFF" id="background"/>
+  
+  <!-- MAIN CONTAINER: Groups all visual elements with 10px margin from edges -->
+  <g transform="translate(10,10)" id="visualization">
+    
+    <!-- RECTANGULAR BARS: Each represents a data category with height proportional to value -->
+    <g>
+      
+      <!-- LEFT COLUMN: Website Promises (Source nodes) -->
+      <!-- Each bar shows: position (x,y), height (data value), width (fixed 5px), color (black) -->
+      <rect x="0" y="5" height="36.666666666666686" width="5" fill="black">
+        <title>Accessible Design: 8</title> <!-- Tooltip shows category and count -->
+      </rect>
+      <rect x="0" y="46.666666666666686" height="18.333333333333314" width="5" fill="black">
+        <title>Activity Guidance: 4</title>
+      </rect>
+      <!-- ... more source bars continue vertically down left side ... -->
+      
+      <!-- RIGHT COLUMN: User Reality (Target nodes) -->
+      <!-- Mirror structure to left side, positioned at x="775" (right edge) -->
+      <rect x="775" y="0" height="13.75" width="5" fill="black">
+        <title>Administrative Confusion: 3</title>
+      </rect>
+      <rect x="775" y="18.75" height="22.916666666666686" width="5" fill="black">
+        <title>Android Issues: 5</title>
+      </rect>
+      <!-- ... more target bars continue vertically down right side ... -->
+      
+      <!-- MIDDLE COLUMN: Role Categories (Intermediate grouping) -->
+      <!-- These represent the three user roles that connect promises to reality -->
+      <rect x="388" y="38" height="284" width="5" fill="black">
+        <title>caregiver: 62</title> <!-- Largest group - most mentions -->
+      </rect>
+      <rect x="388" y="327" height="101" width="5" fill="black">
+        <title>family: 22</title> <!-- Medium group -->
+      </rect>
+      <rect x="388" y="432" height="110" width="5" fill="black">
+        <title>patient: 24</title> <!-- Medium group -->
+      </rect>
+    </g>
+    
+    <!-- FLOW PATHS: Curved lines connecting left → middle → right -->
+    <!-- Line thickness represents frequency of mentions across interviews -->
+    <g fill="none" stroke-opacity="1">
+      
+      <!-- MAJOR FLOWS: Thickest lines (100+ stroke-width) show strongest connections -->
+      <!-- Yellow/orange colors indicate different alignment types -->
+      <path d="M5,197C196,197,196,173,388,173" 
+            stroke="rgb(254, 216, 136)" 
+            stroke-width="105" 
+            title="Easy Implementation → caregiver: 23"/>
+      <!-- ^ This shows "Easy Implementation" promise flowing to "caregiver" role with 23 mentions -->
+      
+      <!-- MEDIUM FLOWS: 30-60 stroke-width for moderate connections -->
+      <path d="M5,88C196,88,196,451,388,451" 
+            stroke="rgb(250, 158, 91)" 
+            stroke-width="37" 
+            title="Behavioral Management → patient: 8"/>
+      
+      <!-- The path 'd' attribute uses SVG path syntax: -->
+      <!-- M = Move to starting point -->
+      <!-- C = Cubic Bezier curve (creates smooth flow shape) -->
+      <!-- Numbers are x,y coordinates for curve control points -->
+      
+      <!-- SMALLER FLOWS: Thinner lines for less frequent connections -->
+      <!-- Colors vary by alignment type (strong=green, partial=yellow, gap=blue/gray) -->
+      
+      <!-- OUTPUT FLOWS: From middle roles to right-side reality outcomes -->
+      <!-- These show how user roles experience different realities -->
+      <path d="M393,239C584,239,584,482,775,482" 
+            stroke="rgb(158, 1, 66)" 
+            stroke-width="37" 
+            title="caregiver → Technical Barriers: 8"/>
+      <!-- ^ Shows caregivers frequently encounter technical barriers -->
+      
+      <!-- ... more flow paths continue with similar structure ... -->
+    </g>
+    
+    <!-- TEXT LABELS: Names and values for each bar -->
+    <g>
+      <!-- LEFT SIDE LABELS: Website promises with counts -->
+      <text x="9" y="23" text-anchor="start" transform="translate(0,-5)">
+        <!-- Main label in bold -->
+        <tspan style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
+          Accessible Design
+        </tspan>
+        <!-- Count value below in normal weight -->
+        <tspan x="9" dy="12" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: normal;">
+          8
+        </tspan>
+      </text>
+      
+      <!-- RIGHT SIDE LABELS: User reality outcomes with counts -->
+      <text x="771" y="482" text-anchor="end" transform="translate(0,-5)">
+        <tspan style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
+          Technical Barriers
+        </tspan>
+        <tspan x="771" dy="12" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: normal;">
+          8
+        </tspan>
+      </text>
+      
+      <!-- MIDDLE LABELS: Role categories -->
+      <text x="396.5" y="179" text-anchor="start" transform="translate(0,-5)">
+        <tspan style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: bold;">
+          caregiver
+        </tspan>
+        <tspan x="396.5" dy="12" style="font-family: Arial, sans-serif; font-size: 10px; fill: black; font-weight: normal;">
+          62
+        </tspan>
+      </text>
+      
+      <!-- ... more labels follow same pattern ... -->
+    </g>
+    
+    <!-- COLUMN HEADERS: Identify the three main sections -->
+    <g>
+      <text x="2.5" y="1" text-anchor="middle" 
+            style="font-family: Arial, sans-serif; font-size: 12px; fill: rgb(123, 123, 123); font-weight: bold;">
+        source <!-- Left column header -->
+      </text>
+      <text x="777.5" y="-4" text-anchor="middle" 
+            style="font-family: Arial, sans-serif; font-size: 12px; fill: rgb(123, 123, 123); font-weight: bold;">
+        target <!-- Right column header -->
+      </text>
+      <text x="390" y="33" text-anchor="middle" 
+            style="font-family: Arial, sans-serif; font-size: 12px; fill: rgb(123, 123, 123); font-weight: bold;">
+        role <!-- Middle column header -->
+      </text>
+    </g>
+    
+  </g>
+</svg>
+
+<!-- 
+VISUAL INTERPRETATION:
+- Bar heights = frequency of mentions in interviews
+- Flow thickness = strength of connection between promise and reality
+- Colors indicate alignment types (how well promises match reality)
+- Left to right flow shows: Promise → Role → Outcome
+- This reveals gaps between marketing claims and user experiences
+-->
