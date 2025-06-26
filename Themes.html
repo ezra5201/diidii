@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>diidii App Interview Themes Relationship Map</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 800px;
+        }
+
+        .network-container {
+            flex: 1;
+            position: relative;
+            background: #fafbfc;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-left: 1px solid #e1e8ed;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .legend {
+            margin-bottom: 30px;
+        }
+
+        .legend h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .legend-item:hover {
+            background: #f8f9fa;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .legend-text {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .insights {
+            margin-top: 30px;
+        }
+
+        .insights h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .insight-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .insight-desc {
+            font-size: 0.9rem;
+            color: #5a6c7d;
+            line-height: 1.4;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 300px;
+            line-height: 1.4;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .node-label {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-anchor: middle;
+            dominant-baseline: central;
+            fill: black;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8), -1px -1px 2px rgba(255,255,255,0.8);
+        }
+
+        .link {
+            stroke-opacity: 0.6;
+            transition: stroke-opacity 0.3s;
+        }
+
+        .link:hover {
+            stroke-opacity: 1;
+        }
+
+        .node {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .node:hover {
+            filter: brightness(1.1);
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>diidii App Interview Themes</h1>
+            <p>Relationship Map: How Barriers, Successes, and User Types Interconnect</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="network-container">
+                <svg id="network" width="100%" height="800"></svg>
+            </div>
+            
+            <div class="sidebar">
+                <div class="legend">
+                    <h3>Theme Categories</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e74c3c;"></div>
+                        <div class="legend-text">Technical Barriers</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f39c12;"></div>
+                        <div class="legend-text">Process Issues</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #27ae60;"></div>
+                        <div class="legend-text">Positive Outcomes</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #3498db;"></div>
+                        <div class="legend-text">User Types</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #9b59b6;"></div>
+                        <div class="legend-text">Workflow Challenges</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #34495e;"></div>
+                        <div class="legend-text">External Factors</div>
+                    </div>
+                </div>
+
+                <div class="insights">
+                    <h3>Key Insights</h3>
+                    
+                    <div class="insight-item">
+                        <div class="insight-title">Success Creates Advocates</div>
+                        <div class="insight-desc">Caregivers who overcome initial barriers become strong advocates (Jane, Jean) and want to help others.</div>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <div class="insight-title">Technical Barriers Cluster</div>
+                        <div class="insight-desc">Android issues, storage concerns, and PIN problems create compounding barriers for struggling users.</div>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <div class="insight-title">Family Gap Persists</div>
+                        <div class="insight-desc">Even successful users report limited family engagement, suggesting systemic rather than individual barriers.</div>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <div class="insight-title">Workflow Misalignment</div>
+                        <div class="insight-desc">App design doesn't account for floating schedules and busy caregiving workflows.</div>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <div class="insight-title">Emotional Validation</div>
+                        <div class="insight-desc">When the app works, it provides deep emotional satisfaction and validates caregiving efforts.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const data = {
+            nodes: [
+                // Technical Barriers (Red)
+                { id: "android_issues", label: "Android Issues", category: "technical", size: 8, color: "#e74c3c" },
+                { id: "pin_problems", label: "PIN/Login Issues", category: "technical", size: 6, color: "#e74c3c" },
+                { id: "storage_concerns", label: "Device Storage", category: "technical", size: 5, color: "#e74c3c" },
+                { id: "setup_failures", label: "Initial Setup Failures", category: "technical", size: 7, color: "#e74c3c" },
+                
+                // Process Issues (Orange)
+                { id: "training_gaps", label: "Training Gaps", category: "process", size: 9, color: "#f39c12" },
+                { id: "family_disconnect", label: "Family Disengagement", category: "process", size: 8, color: "#f39c12" },
+                { id: "admin_confusion", label: "Admin Confusion", category: "process", size: 6, color: "#f39c12" },
+                
+                // Positive Outcomes (Green)
+                { id: "mood_improvement", label: "Client Mood Improvement", category: "positive", size: 9, color: "#27ae60" },
+                { id: "emotional_connection", label: "Emotional Connection", category: "positive", size: 8, color: "#27ae60" },
+                { id: "trust_building", label: "Trust Building", category: "positive", size: 7, color: "#27ae60" },
+                { id: "caregiver_satisfaction", label: "Caregiver Satisfaction", category: "positive", size: 6, color: "#27ae60" },
+                
+                // User Types (Blue)
+                { id: "super_users", label: "Super Users\n(Jane, Jean)", category: "user_type", size: 7, color: "#3498db" },
+                { id: "struggling_users", label: "Struggling Users\n(Betsy, Lana)", category: "user_type", size: 6, color: "#3498db" },
+                { id: "non_adopters", label: "Non-Adopters\n(Cathy, Rose, Roberta)", category: "user_type", size: 8, color: "#3498db" },
+                
+                // Workflow Challenges (Purple)
+                { id: "floating_schedules", label: "Floating Schedules", category: "workflow", size: 5, color: "#9b59b6" },
+                { id: "time_constraints", label: "Time Constraints", category: "workflow", size: 6, color: "#9b59b6" },
+                { id: "workflow_integration", label: "Workflow Integration", category: "workflow", size: 7, color: "#9b59b6" },
+                
+                // External Factors (Dark Blue)
+                { id: "family_circumstances", label: "Family Circumstances", category: "external", size: 5, color: "#34495e" },
+                { id: "device_policies", label: "Device Policies", category: "external", size: 4, color: "#34495e" }
+            ],
+            
+            links: [
+                // Technical barriers cluster
+                { source: "android_issues", target: "struggling_users", strength: 8 },
+                { source: "pin_problems", target: "non_adopters", strength: 6 },
+                { source: "storage_concerns", target: "non_adopters", strength: 5 },
+                { source: "setup_failures", target: "non_adopters", strength: 7 },
+                
+                // Training connects to all user types
+                { source: "training_gaps", target: "struggling_users", strength: 9 },
+                { source: "training_gaps", target: "non_adopters", strength: 8 },
+                { source: "training_gaps", target: "super_users", strength: -6 }, // Negative indicates they overcame this
+                
+                // Super users achieve positive outcomes
+                { source: "super_users", target: "mood_improvement", strength: 9 },
+                { source: "super_users", target: "emotional_connection", strength: 8 },
+                { source: "super_users", target: "trust_building", strength: 7 },
+                { source: "super_users", target: "caregiver_satisfaction", strength: 8 },
+                
+                // Workflow challenges affect different user types
+                { source: "floating_schedules", target: "struggling_users", strength: 6 },
+                { source: "time_constraints", target: "workflow_integration", strength: 7 },
+                { source: "workflow_integration", target: "struggling_users", strength: 5 },
+                
+                // Family issues affect engagement
+                { source: "family_disconnect", target: "super_users", strength: 6 }, // Even super users face this
+                { source: "family_circumstances", target: "family_disconnect", strength: 5 },
+                
+                // Admin issues affect adoption
+                { source: "admin_confusion", target: "struggling_users", strength: 5 },
+                { source: "admin_confusion", target: "non_adopters", strength: 4 },
+                
+                // Device policies create barriers
+                { source: "device_policies", target: "storage_concerns", strength: 4 },
+                { source: "device_policies", target: "non_adopters", strength: 3 }
+            ]
+        };
+
+        const svg = d3.select("#network");
+        const width = 1000;
+        const height = 800;
+        
+        svg.attr("viewBox", `0 0 ${width} ${height}`);
+
+        const g = svg.append("g");
+
+        // Create zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+
+        svg.call(zoom);
+
+        // Create force simulation
+        const simulation = d3.forceSimulation(data.nodes)
+            .force("link", d3.forceLink(data.links).id(d => d.id).distance(d => Math.max(60, 150 - d.strength * 8)))
+            .force("charge", d3.forceManyBody().strength(-800))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(d => d.size * 4 + 10));
+
+        // Create links
+        const link = g.append("g")
+            .selectAll("line")
+            .data(data.links)
+            .enter().append("line")
+            .attr("class", "link")
+            .attr("stroke", d => d.strength < 0 ? "#27ae60" : "#95a5a6")
+            .attr("stroke-width", d => Math.abs(d.strength) / 2)
+            .attr("stroke-dasharray", d => d.strength < 0 ? "5,5" : "none");
+
+        // Create nodes
+        const node = g.append("g")
+            .selectAll("circle")
+            .data(data.nodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", d => d.size * 3 + 5)
+            .attr("fill", d => d.color)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 3)
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended))
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut);
+
+        // Add link labels for blue connection lines
+        const linkLabels = g.append("g")
+            .selectAll("text")
+            .data(data.links.filter(d => d.strength < 0))
+            .enter().append("text")
+            .attr("text-anchor", "middle")
+            .attr("font-size", "10px")
+            .attr("fill", "#27ae60")
+            .attr("font-weight", "bold")
+            .text("overcame");
+
+        // Add labels positioned above nodes
+        const labels = g.append("g")
+            .selectAll("text")
+            .data(data.nodes)
+            .enter().append("text")
+            .attr("class", "node-label")
+            .text(d => d.label)
+            .style("font-size", d => Math.max(10, d.size + 2) + "px")
+            .each(function(d) {
+                const lines = d.label.split('\n');
+                if (lines.length > 1) {
+                    d3.select(this).text('');
+                    lines.forEach((line, i) => {
+                        d3.select(this)
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', i === 0 ? 0 : '1.2em')
+                            .text(line);
+                    });
+                }
+            });
+
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            linkLabels
+                .attr("x", d => (d.source.x + d.target.x) / 2)
+                .attr("y", d => (d.source.y + d.target.y) / 2);
+
+            node
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+
+            labels
+                .attr("x", d => d.x)
+                .attr("y", d => d.y - (d.size * 3 + 15)); // Position labels above circles
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        function handleMouseOver(event, d) {
+            const tooltip = d3.select("#tooltip");
+            
+            // Get connected nodes
+            const connectedNodes = new Set();
+            data.links.forEach(link => {
+                if (link.source.id === d.id) connectedNodes.add(link.target.id);
+                if (link.target.id === d.id) connectedNodes.add(link.source.id);
+            });
+
+            let tooltipContent = `<strong>${d.label}</strong><br/>`;
+            tooltipContent += `Category: ${d.category}<br/>`;
+            tooltipContent += `Significance: ${d.size}/10<br/>`;
+            
+            if (connectedNodes.size > 0) {
+                tooltipContent += `<br/>Connected to: ${Array.from(connectedNodes).slice(0, 3).join(', ')}`;
+                if (connectedNodes.size > 3) tooltipContent += ` +${connectedNodes.size - 3} more`;
+            }
+
+            tooltip
+                .style("opacity", 1)
+                .html(tooltipContent)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+
+            // Highlight connected nodes
+            node.style("opacity", n => connectedNodes.has(n.id) || n.id === d.id ? 1 : 0.3);
+            link.style("opacity", l => l.source.id === d.id || l.target.id === d.id ? 1 : 0.1);
+        }
+
+        function handleMouseOut(event, d) {
+            d3.select("#tooltip").style("opacity", 0);
+            node.style("opacity", 1);
+            link.style("opacity", 0.6);
+        }
+
+        // Add pan and zoom instructions
+        svg.append("text")
+            .attr("x", 20)
+            .attr("y", height - 20)
+            .style("font-size", "12px")
+            .style("fill", "#666")
+            .text("Drag nodes • Scroll to zoom • Hover for details");
+    </script>
+</body>
+</html>
